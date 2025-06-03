@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  ssh-blog:
+    build: .
+    container_name: ssh-blog
+    ports:
+      - "2222:22"
+    volumes:
+      # Persist database
+      - ssh_blog_data:/var/lib/ssh-blog
+      # Mount SSH host keys to persist server identity
+      - ssh_host_keys:/etc/ssh/ssh_host_keys
+    environment:
+      - RUST_LOG=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "sshd"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ssh_blog_data:
+    driver: local
+  ssh_host_keys:
+    driver: local

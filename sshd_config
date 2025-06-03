@@ -1,0 +1,37 @@
+Port 2222
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+
+# Force command to run our blog platform
+
+ForceCommand /opt/ssh-blog/ssh-blog
+
+# Allow all users (you can restrict this)
+
+AllowUsers \*
+
+# Keep connections alive
+
+ClientAliveInterval 60
+ClientAliveCountMax 3
+
+# Environment passing
+
+PermitUserEnvironment yes
+AcceptEnv USER LOGNAME
+
+# Disable problematic features
+
+X11Forwarding no
+AllowTcpForwarding no
+AllowAgentForwarding no
+PermitTunnel no
+
+# Logging
+
+SyslogFacility AUTH
+LogLevel INFO
+
+---
